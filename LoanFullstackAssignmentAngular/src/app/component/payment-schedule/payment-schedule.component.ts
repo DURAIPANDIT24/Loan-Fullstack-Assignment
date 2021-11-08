@@ -45,6 +45,6 @@ export class PaymentScheduleComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
+ 
 
 }

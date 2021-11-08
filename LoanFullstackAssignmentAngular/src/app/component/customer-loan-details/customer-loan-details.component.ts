@@ -27,7 +27,7 @@ export class CustomerLoanDetailsComponent implements OnInit {
   navigatePaymentSchedule(loanId:string){
     this.router.navigate([`./payment-schedule`],{ queryParams: { loanId: loanId } });
   }
-
+  
  
 
 }

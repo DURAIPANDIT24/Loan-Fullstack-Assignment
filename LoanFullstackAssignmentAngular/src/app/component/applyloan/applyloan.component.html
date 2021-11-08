@@ -23,7 +23,7 @@
             <div class="col-sm">
               <div class="form-group">
                 <label>Trade Date:</label>
-                <input type="date" formControlName="tradeDate" class="form-control" min="2020-09-25" />
+                <input type="date" formControlName="tradeDate"  class="form-control" min={{minDate}} />
                 <div *ngIf="submitted && f.tradeDate.errors">
                     <div *ngIf="f.tradeDate.errors.required" class="error-style">Trade Date is required</div>
                 </div>
@@ -34,7 +34,7 @@
             <div class="col-sm">
               <div class="form-group">
                 <label>Start Date:</label>
-                <input type="date" formControlName="startDate" class="form-control" min="2020-09-25" />
+                <input type="date" formControlName="startDate" class="form-control" min={{maxDate}}  />
                 <div *ngIf="submitted && f.startDate.errors">
                     <div *ngIf="f.startDate.errors.required" class="error-style">Start Date is required</div>
                 </div>
@@ -69,56 +69,41 @@
                     <input type="text" (keypress)="keyPressNumbers($event)" formControlName="interestRate" class="form-control" />
                 </div>
                   </div>
-                  <div class="col-sm">
+                  <div class="col-sm mb-3">
                     <div class="form-group">
                       <label> Payment Frequency:</label>
                       <br>
-                      <label>
-                          <input type="radio" value="Monthly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)"> Monthly
-                      </label>
-                      <br>
-                      <label>
-                          <input type="radio" value="Quarterly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                          <span>Quarterly</span>
-                      </label>
-                      <br>
-                      <label>
-                          <input type="radio" value="Half Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                          <span>Half Yearly</span>
-                      </label>
-                      <br>
-                      <label>
-                          <input type="radio" value="Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                          <span>Yearly</span>
-                      </label>
+                      <select formControlName="paymentFrequency" class="custom-select" (change)="calculatepaymentSchedule($event)" >
+                        <option value="" disabled selected>Select your option</option>
+                        <option value="Monthly" >Monthly</option>
+                        <option value="Quarterly" >Quarterly</option>
+                        <option value="Half Yearly" >Half Yearly</option>
+                        <option value="Yearly" >Yearly</option>
+                     </select>
                       <div *ngIf="submitted && f.paymentFrequency.errors">
                           <div *ngIf="f.paymentFrequency.errors.required" class="error-style">Payment Frequency is required</div>
                       </div>
                   </div>
                   </div>
         
-                  <div class="col-sm" >
+                  <div class="col-sm " >
 
-                    <div class="form-group">
+                    <div class="form-group ">
                       <label>Payment Schedule:</label>
                       <input type="text" (keypress)="keyPressNumbers($event)" formControlName="paymentSchedule" class="form-control" />
                   </div>
                   </div>
                   </div>
                   <div class="row">
-                    <div class="col-sm">
+                    <div class="col-sm  mb-3">
                       <div class="form-group">
                         <label>Payment Term:</label>
                         <br>
-                        <label>
-                            <input type="radio" value="Interest Only" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
-                            <span>Interest Only</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Even Principal" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
-                            <span>Even Principal</span>
-                        </label>
+                        <select formControlName="paymentTerm" class="custom-select" (change)="calculateprojectedInterest($event)">
+                          <option value="" disabled selected>Select your option</option>
+                          <option value="Interest Only">Interest Only</option>
+                          <option value="Even Principal">Even Principal</option>
+                        </select>
                         <div *ngIf="submitted && f.paymentTerm.errors">
                             <div *ngIf="f.paymentTerm.errors.required" class="error-style">Payment Term is required</div>
                         </div>
@@ -133,8 +118,8 @@
   
                     </div>
                   </div>
-            <div class="form-group">
-                <button class="btn btn-primary" style="margin: 8px;">Apply</button>
+            <div class="form-group  text-center">
+                <button class="btn btn-primary text-center"  style="margin: 8px;">Apply</button>
             </div>
             <div #alert class="alert alert-success alert-dismissible fade" role="alert">
                 <button type="button" class="close" aria-label="Close" (click)="closeAlert()">

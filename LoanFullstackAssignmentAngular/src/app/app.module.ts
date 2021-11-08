@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import {MatTableModule} from '@angular/material/table';
 import { PaymentScheduleComponent } from './component/payment-schedule/payment-schedule.component';
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PaymentScheduleComponent } from './component/payment-schedule/payment-s
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
     ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [],
