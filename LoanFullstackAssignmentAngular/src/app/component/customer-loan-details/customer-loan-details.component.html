@@ -1,7 +1,9 @@
 <div class="card m-3">
   <h5 class="card-header text-center" > Loan Details</h5>
   <div class="card-body">
+   
     <table class="table table-striped">
+
 <thead>
   <tr>
     <th scope="col">No</th>
@@ -15,10 +17,13 @@
     <th scope="col">Payment Term</th>
     <th scope="col">Projected Interest</th>
     <th scope="col">Loan Status</th>
-    <th scope="col">Make Payment</th>
+    
   </tr>
 </thead>
-<tbody>
+<mat-spinner *ngIf="spin"></mat-spinner>
+
+<tbody *ngIf="!spin">
+  
   <tr *ngFor="let loan of loans; index as i">
     <th scope="row">{{ i + 1 }}</th>
     <td>{{ loan.loanId }}</td>
@@ -36,6 +41,7 @@
       <button class="btn btn-primary mt-auto btn-sm" (click)=navigatePaymentSchedule(loan.loanId)>Pay</button>
     </td>
   </tr>
+
 </tbody>
 </table>
 </div>

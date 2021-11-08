@@ -70,13 +70,33 @@
                 </div>
                   </div>
                   <div class="col-sm">
-
                     <div class="form-group">
-                      <label>Projected interest :</label>
-                      <input type="text" (keypress)="keyPressNumbers($event)" formControlName="projectedInterest" class="form-control" />
+                      <label> Payment Frequency:</label>
+                      <br>
+                      <label>
+                          <input type="radio" value="Monthly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)"> Monthly
+                      </label>
+                      <br>
+                      <label>
+                          <input type="radio" value="Quarterly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                          <span>Quarterly</span>
+                      </label>
+                      <br>
+                      <label>
+                          <input type="radio" value="Half Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                          <span>Half Yearly</span>
+                      </label>
+                      <br>
+                      <label>
+                          <input type="radio" value="Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                          <span>Yearly</span>
+                      </label>
+                      <div *ngIf="submitted && f.paymentFrequency.errors">
+                          <div *ngIf="f.paymentFrequency.errors.required" class="error-style">Payment Frequency is required</div>
+                      </div>
                   </div>
-
                   </div>
+        
                   <div class="col-sm" >
 
                     <div class="form-group">
@@ -105,32 +125,12 @@
                     </div>
                     </div>
                     <div class="col-sm">
-                      <div class="form-group">
-                        <label> Payment Frequency:</label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Monthly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)"> Monthly
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Quarterly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Quarterly</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Half Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Half Yearly</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Yearly</span>
-                        </label>
-                        <div *ngIf="submitted && f.paymentFrequency.errors">
-                            <div *ngIf="f.paymentFrequency.errors.required" class="error-style">Payment Frequency is required</div>
-                        </div>
-                    </div>
 
+                      <div class="form-group">
+                        <label>Projected interest :</label>
+                        <input type="text" (keypress)="keyPressNumbers($event)" formControlName="projectedInterest" class="form-control" />
+                    </div>
+  
                     </div>
                   </div>
             <div class="form-group">

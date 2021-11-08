@@ -13,7 +13,8 @@
             <th scope="col">Pay</th>
           </tr>
         </thead>
-        <tbody>
+        <mat-spinner *ngIf="spin"></mat-spinner>
+        <tbody *ngIf="!spin">
           <tr *ngFor="let payment of payments; index as i">
             <th scope="row">{{ i + 1 }}</th>
             <td style="display:none;">{{ payment.paymentId}}</td>

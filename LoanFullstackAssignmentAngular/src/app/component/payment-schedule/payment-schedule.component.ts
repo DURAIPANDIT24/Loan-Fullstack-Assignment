@@ -11,16 +11,19 @@ import { PaymentSchedule } from 'src/app/models/paymentSchedule';
 export class PaymentScheduleComponent implements OnInit {
   payments:PaymentSchedule[] ;
   loanId:string;
+  spin : boolean;
   constructor(private activatedRoute: ActivatedRoute,private loanService: LoanService ) { }
 
   ngOnInit(): void {
+    this.spin=true;
     this.activatedRoute
     .queryParams
     .subscribe(params => {
       this.loanId=params['loanId'];
-      this.loanService.getPaymentSchedule(this.loanId).subscribe(data=>
+      this.loanService.getPaymentSchedule(this.loanId).subscribe((data:any)=>
       {
-        this.payments=data.sort(this.compare);
+        this.spin=false;
+        this.payments=data;
       })
     });
   }
@@ -43,18 +46,5 @@ export class PaymentScheduleComponent implements OnInit {
     });
   }
 
-   compare( a:any, b:any ) {
-    var a_part =a.paymentDate.split("-");
-    var dateObject1 = new Date(+a_part[2], a_part[1] - 1, +a_part[1]);
-    var b_part =b.paymentDate.split("-");
-    var dateObject2 = new Date(+b_part[2], b_part[1] - 1, +b_part[1]);
-    if (dateObject1.valueOf() < dateObject2.valueOf() ){
-      return -1;
-    }
-    if ( dateObject1.valueOf() > dateObject2.valueOf() ){
-      return 1;
-    }
-    return 0;
-  }
 
 }

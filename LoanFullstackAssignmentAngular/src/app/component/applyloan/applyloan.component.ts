@@ -10,78 +10,7 @@ import { LoanService } from 'src/app/service/loan.service';
   styleUrls: ['./applyloan.component.css']
 })
 export class ApplyloanComponent implements OnInit {
-  // loanForm: FormGroup|any;
-  // customerId:string;
-  // loan: Loan = new Loan();
-  // submitted = false;
-  // today = new Date();
-  // range: number;
-  // date: Date;
-  // paymentSchedule: number = 0;
-  // countries = [
-  //   { id: 1, name: "United States" },
-  //   { id: 2, name: "Australia" },
-  //   { id: 3, name: "Canada" },
-  //   { id: 4, name: "Brazil" },
-  //   { id: 5, name: "England" }
-  // ];
 
-
-
-  // constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router,private authService:HardcodedAuthenticationService) {
-
-  //  }
-
-  // ngOnInit() {
-  //   this.loanForm = this.formBuilder.group({
-  //     country: [null]
-  //   });
-  //   this.customerId=this.authService.getCustomerId();
-  //   this.loanForm = this.formBuilder.group({
-  //     customerId: [{ value:this.customerId, disabled: true }],
-  //     loanAmount: ['', [Validators.required, Validators.max(10000000), Validators.min(1000)]],
-  //     tradeDate: ['',Validators.required],
-  //     startDate: ['',Validators.required],
-  //     loanDuration: ['',Validators.required],
-  //     maturityDate: [{ value: new Date(), disabled: true }],
-  //     interestRate: [{ value: 10, disabled: true }],
-  //     paymentFrequency: ['', [Validators.required]],
-  //     paymentSchedule: [{ value: 0, disabled: true }],
-  //     paymentTerm: ['', [Validators.required]],
-  //     projectedInterest: [{ value: 0, disabled: true }],
-  //   });
-  // }
-
-  // setMaturityDate(event:any) {
-  //   var range = (event.target.value) * 12;
-  //   var startDate = this.loanForm.get('startDate').value;
-  //   var date = new Date(startDate);
-  //   if (range != 0) {
-  //     this.loanForm.patchValue({
-  //       maturityDate: new Date(date.setMonth(date.getMonth() + range)).toISOString().substring(0, 10)
-  //     });
-  //   }
-
-  // }
-
-  // calculatepaymentSchedule(event:any) {
-  //   var totalMonths = parseInt(this.loanForm.get('loanDuration').value) * 12;
-  //   var target = event.target;
-  //   if (target.checked) {
-  //     if (target.value == "Monthly") {
-  //       this.paymentSchedule = totalMonths;
-  //     } else if (target.value == "Quarterly") {
-  //       this.paymentSchedule = totalMonths / 3;
-  //     } else if (target.value == "Half Yearly") {
-  //       this.paymentSchedule = totalMonths / 6;
-  //     } else if (target.value == "Yearly") {
-  //       this.paymentSchedule = totalMonths / 12;
-  //     }
-  //     this.loanForm.patchValue({
-  //       paymentSchedule: this.paymentSchedule
-  //     });
-  //   }
-  // }
   @ViewChild('alert', { static: true }) alert: ElementRef;
   loanForm: FormGroup|any;
   customerId:string;
@@ -125,9 +54,6 @@ export class ApplyloanComponent implements OnInit {
 
   }
 
-
-
-
   calculatepaymentSchedule(event:any) {
     var totalMonths = parseInt(this.loanForm.get('loanDuration').value) * 12;
     var target = event.target;
@@ -170,7 +96,6 @@ export class ApplyloanComponent implements OnInit {
   }
   keyPressNumbers(event:any) {
     var charCode = (event.which) ? event.which : event.keyCode;
-    // Only Numbers 0-9
     if ((charCode < 48 || charCode > 57)) {
       event.preventDefault();
       return false;

@@ -29,7 +29,15 @@ export class SignupComponent implements OnInit {
           validator: MustMatch('password', 'confirmPassword')
       });
     }
-
+    keyPressNumbers(event:any) {
+      var charCode = (event.which) ? event.which : event.keyCode;
+      if ((charCode < 48 || charCode > 57)) {
+        event.preventDefault();
+        return false;
+      } else {
+        return true;
+      }
+    }
     get f() { return this.registerForm.controls; }
 
     onSubmit() {
