@@ -1,4 +1,5 @@
-<div class="card m-3">
+<mat-spinner *ngIf="spin"></mat-spinner>
+<div class="card m-3" *ngIf="!spin">
     <h5 class="card-header text-center">Payment Schedule</h5>
     <div class="card-body">
       <table class="table table-striped">
@@ -13,8 +14,8 @@
             <th scope="col">Pay</th>
           </tr>
         </thead>
-        <mat-spinner *ngIf="spin"></mat-spinner>
-        <tbody *ngIf="!spin">
+       
+        <tbody >
           <tr *ngFor="let payment of payments; index as i">
             <th scope="row">{{ i + 1 }}</th>
             <td style="display:none;">{{ payment.paymentId}}</td>
