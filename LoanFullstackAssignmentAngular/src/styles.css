@@ -6,6 +6,9 @@
 /* for toast importing */
 @import "~ngx-toastr/toastr";
 
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
 body {
   color: #000;
   overflow-x: hidden;

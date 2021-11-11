@@ -19,6 +19,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import {MatTableModule} from '@angular/material/table';
 import { PaymentScheduleComponent } from './component/payment-schedule/payment-schedule.component';
+import { LoanPayPopupComponent } from './component/loan-pay-popup/loan-pay-popup.component';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +32,7 @@ import { PaymentScheduleComponent } from './component/payment-schedule/payment-s
     CustomerdetailsComponent,
     LoginComponent,
     PaymentScheduleComponent,
+    LoanPayPopupComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -43,7 +46,10 @@ import { PaymentScheduleComponent } from './component/payment-schedule/payment-s
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    MatDialogModule,
+
+    ToastrModule.forRoot(),
+     // ToastrModule added
   ],
   providers: [],
   bootstrap: [AppComponent]
