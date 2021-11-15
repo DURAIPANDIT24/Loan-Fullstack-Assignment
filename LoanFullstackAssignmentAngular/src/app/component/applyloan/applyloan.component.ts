@@ -5,6 +5,8 @@ import { Loan } from 'src/app/models/loan';
 import { HardcodedAuthenticationService } from 'src/app/service/hardcoded-authentication.service';
 import { LoanService } from 'src/app/service/loan.service';
 import * as moment from 'moment';
+import {MatDialog} from '@angular/material/dialog';
+import { LoanApplyPopupComponent } from '../loan-apply-popup/loan-apply-popup.component';
 @Component({
   selector: 'app-applyloan',
   templateUrl: './applyloan.component.html',
@@ -28,9 +30,9 @@ export class ApplyloanComponent implements OnInit {
   minDate = moment(this.now).format('YYYY-MM-DD');
   maxDate= moment(this.now, "YYYY-MM-DD").add(10, "days").format('YYYY-MM-DD');
 
-  constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router,private authService:HardcodedAuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router,private authService:HardcodedAuthenticationService,public dialog: MatDialog ) { }
   ngOnInit() {
-   
+
     this.customerId=this.authService.getCustomerId();
     this.loanForm = this.formBuilder.group({
       customerId: [{ value:this.customerId, disabled: true }],
@@ -61,7 +63,7 @@ export class ApplyloanComponent implements OnInit {
     }
 
   }
-  
+
 
   calculatepaymentSchedule(event:any) {
 
@@ -78,7 +80,6 @@ export class ApplyloanComponent implements OnInit {
       this.loanForm.patchValue({
         paymentSchedule: this.paymentSchedule
       });
-
   }
 
   calculateprojectedInterest(event:any) {
@@ -133,25 +134,24 @@ export class ApplyloanComponent implements OnInit {
     this.loanService.saveLoan(this.loan).subscribe(data => {
       console.log('Save Loan:' + data);
     });
-    this.alert.nativeElement.classList.add('show');
+    this.dialog.open( LoanApplyPopupComponent );
    this.resetForm();
   }
-   resetForm(){
+  async resetForm(){
     this.loanForm.reset();
+    Object.keys(this.loanForm.controls).forEach(key => {
+      this.loanForm.controls[key].setErrors(null)
+    });
     this.submitted=false;
+    // await this.router.navigate(['home'])
    }
    formatDate(input:string) {
     var datePart = input.match(/\d+/g),
     year = datePart![0],
     month = datePart![1],
     day = datePart![2];
-
     return day+'-'+month+'-'+year;
   }
 
-
-  closeAlert() {
-    this.alert.nativeElement.classList.remove('show');
-  }
 
 }

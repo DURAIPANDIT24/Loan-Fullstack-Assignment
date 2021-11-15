@@ -1,30 +1,31 @@
+ <div class="box-width">
+  <mat-toolbar color="primary">
+      <span class="title-center">LOGIN</span>
+  </mat-toolbar>
 
-<div class="card" style="width: 100em;">
+  <div class="content">
+      <mat-card class="mat-elevation-z4">
 
-  <div class="card-body" style="width: 25rem;">
-    <div class="login-page">
-      <div class="form">
-        <div class="login">
-          <div class="login-header">
-            <h3>LOGIN</h3>
-            <p>Please enter your credentials to login.</p>
-          </div>
-        </div>
         <form #loginForm="ngForm" (ngSubmit)="onFormSubmit(loginForm)">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Username" name='username' required="required" ngModel>
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" name='password' type="password" required="required" ngModel>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid" >Log in   <i class="fa fa-spinner fa-spin" *ngIf="loading"> </i></button>
-          </div>
-
+          <mat-form-field class="full-width" appearance="outline" >
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Enter UserName" placeholder="Username" name='username' required="required" ngModel>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="Enter Password" name='password' type="password" required="required" ngModel>
+          </mat-form-field>
+          <br>
+          <div style="text-align:center;">
+          <button class="btnClass" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
+         <br>
           <p class="message">Not registered? <a (click)="gotosignup()">Create an account</a></p>
+        </div>
         </form>
-      </div>
-    </div>
-    </div>
+      </mat-card>
+  </div>
 </div>
+
+
 

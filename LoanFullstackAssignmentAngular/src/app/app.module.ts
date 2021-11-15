@@ -21,6 +21,11 @@ import {MatTableModule} from '@angular/material/table';
 import { PaymentScheduleComponent } from './component/payment-schedule/payment-schedule.component';
 import { LoanPayPopupComponent } from './component/loan-pay-popup/loan-pay-popup.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { LoanApplyPopupComponent } from './component/loan-apply-popup/loan-apply-popup.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +38,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     LoginComponent,
     PaymentScheduleComponent,
     LoanPayPopupComponent,
+    LoanApplyPopupComponent,
+
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -47,7 +54,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatInputModule,
     MatTableModule,
     MatDialogModule,
-
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatGridListModule,
     ToastrModule.forRoot(),
      // ToastrModule added
   ],
