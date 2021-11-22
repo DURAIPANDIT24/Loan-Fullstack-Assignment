@@ -1,4 +1,5 @@
 package com.loan.services;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,61 +14,30 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import com.loan.model.Customer;
 import com.loan.model.Loan;
 import com.loan.model.PaymentSchedule;
 import com.loan.repository.CustomerRepository;
 import com.loan.repository.LoanRepository;
 import com.loan.repository.PaymentScheduleRepository;
 
-
 @Service
 public class LoanManagementService {
 
 	@Autowired
 	CustomerRepository customerRepository;
-	
+
 	@Autowired
 	LoanRepository loanRepository;
-	
+
 	@Autowired
 	PaymentScheduleRepository paymentScheduleRepository;
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(LoanManagementService.class);
 
-	
-	public Customer saveCustomerDetails(Customer customer) {
-		customer.setCustomerId(generateKey("CID"));
-		return customerRepository.save(customer);
-
-	}
-	
 	private String generateKey(String prefix) {
 		String key = UUID.randomUUID().toString().split("-")[0];
-		return prefix+ key;
+		return prefix + key;
 	}
-	public Customer getCustomerDetails(String customerId) {
-		logger.info("Getting customer details for {}", customerId);
-		return customerRepository.findById(customerId).get();
-	}
-	public Loan getLoanDetailsForPayment(String loanId) {
-		logger.info("Getting loan details for payment screen{}", loanId);
-		return loanRepository.findById(loanId).get();
-	}
-
-	
-	public Customer getCustomerDetails(String email, String password) {
-		List<Customer> customerList = customerRepository.findByEmailAndPassword(email, password);
-		if (customerList.isEmpty()) {
-			return new Customer();
-		}
-		logger.info("Verifying existing customer details for {}", email);
-		return customerRepository.findByEmailAndPassword(email, password).get(0);
-	}
-	
-	
 
 	public List<Loan> getLoansByCustomerId(String customerId) {
 		List<Loan> loans = new ArrayList<Loan>();
@@ -76,27 +46,8 @@ public class LoanManagementService {
 		return loans;
 	}
 
-	
-	public List<PaymentSchedule> getPaymentScheduleByLoanId(String loanId) {
-		logger.info("Getting Payment Schedule for Loan{}", loanId);
-		return paymentScheduleRepository.findByLoanId(loanId);
-	}
-
-	
-	public PaymentSchedule updatePaymentStatus(String paymentId) {
-		Optional<PaymentSchedule> paymentScheduleOptional = paymentScheduleRepository.findById(paymentId);
-		PaymentSchedule paymentSchedule = new PaymentSchedule();
-		if (paymentScheduleOptional.isPresent()) {
-			paymentSchedule = paymentScheduleOptional.get();
-			paymentSchedule.setPaymentStatus("PAID");
-		}
-		logger.info("Updating payment status for payment schedule {}", paymentId);
-		return paymentScheduleRepository.save(paymentSchedule);
-	}
-	
-	
 	public Loan saveLoan(Loan loan) {
-	
+
 		loan.setPayment(false);
 		loan.setLoanId(generateKey("FINZ"));
 		try {
@@ -109,7 +60,6 @@ public class LoanManagementService {
 
 	}
 
-	
 	private void createPaymentSchedule(Loan loan) {
 		String paymentTerm = loan.getPaymentTerm();
 		if (paymentTerm.equals("Interest Only")) {
@@ -118,8 +68,6 @@ public class LoanManagementService {
 			createEvenPrincipalSchedule(loan);
 		}
 	}
-
-
 
 	private void createEvenPrincipalSchedule(Loan loan) {
 		List<PaymentSchedule> paymentScheduleList = new ArrayList<PaymentSchedule>();
@@ -130,9 +78,9 @@ public class LoanManagementService {
 			paymentSchedule.setLoanId(loan.getLoanId());
 			paymentSchedule.setPaymentDate(calculatePaymentDate(loan, loan.getPaymentFrequency()));
 			paymentSchedule.setPrincipal(loan.getLoanAmount());
-			paymentSchedule.setProjectedInterest(calculateInterest(loan,perPaymentPrincipal));
+			paymentSchedule.setProjectedInterest(calculateInterest(loan, perPaymentPrincipal));
 			paymentSchedule.setPaymentStatus("PROJECTED");
-			paymentSchedule.setPaymentAmount(paymentSchedule.getProjectedInterest()+perPaymentPrincipal);
+			paymentSchedule.setPaymentAmount(paymentSchedule.getProjectedInterest() + perPaymentPrincipal);
 			paymentScheduleList.add(paymentSchedule);
 		}
 		logger.info("Creating Even Principal Schedule for Loan {}", loan);
@@ -148,11 +96,11 @@ public class LoanManagementService {
 			paymentSchedule.setPaymentId(generateKey("PAY"));
 			paymentSchedule.setLoanId(loan.getLoanId());
 			paymentSchedule.setPaymentDate(calculatePaymentDate(loan, loan.getPaymentFrequency()));
-			paymentSchedule.setProjectedInterest(calculateInterest(loan,perPaymentPrincipal));
-			if(i==loan.getPaymentSchedule()) {
+			paymentSchedule.setProjectedInterest(calculateInterest(loan, perPaymentPrincipal));
+			if (i == loan.getPaymentSchedule()) {
 				paymentSchedule.setPrincipal(netPrincipal);
-				paymentSchedule.setPaymentAmount((paymentSchedule.getProjectedInterest())+(netPrincipal));
-			}else {
+				paymentSchedule.setPaymentAmount((paymentSchedule.getProjectedInterest()) + (netPrincipal));
+			} else {
 				paymentSchedule.setPrincipal(0);
 				paymentSchedule.setPaymentAmount(paymentSchedule.getProjectedInterest());
 			}
@@ -163,19 +111,17 @@ public class LoanManagementService {
 		paymentScheduleRepository.saveAll(paymentScheduleList);
 	}
 
-	
 	private float calculateInterest(Loan loan, int perPaymentPrincipal) {
 		float paymentSchedule = loan.getPaymentSchedule();
 		float principal = loan.getLoanAmount();
 		float years = loan.getLoanDuration();
 		float interestRate = loan.getInterestRate();
-		int interestAmount =(int) ((principal * (years / paymentSchedule) * interestRate) / 100);
+		int interestAmount = (int) ((principal * (years / paymentSchedule) * interestRate) / 100);
 		principal = principal - perPaymentPrincipal;
-		loan.setLoanAmount((int)principal);
+		loan.setLoanAmount((int) principal);
 		return interestAmount;
 	}
 
-	
 	private String calculatePaymentDate(Loan loan, String paymentFrequency) {
 		String paymentDate = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -220,7 +166,6 @@ public class LoanManagementService {
 		return paymentDate;
 	}
 
-	
 	private String convertDateFormat(String paymentDate) {
 		if (paymentDate.charAt(1) == '-') {
 			paymentDate = "0" + paymentDate;
@@ -230,7 +175,6 @@ public class LoanManagementService {
 		}
 		return paymentDate;
 	}
-	
 
 	public Loan approvedLoan(String loanId) {
 		Optional<Loan> loanapprovedOptional = loanRepository.findById(loanId);
@@ -242,9 +186,5 @@ public class LoanManagementService {
 		logger.info("Approved Load Status ", loanId);
 		return loanRepository.save(loan);
 	}
-	
-	
-
-	
 
 }
