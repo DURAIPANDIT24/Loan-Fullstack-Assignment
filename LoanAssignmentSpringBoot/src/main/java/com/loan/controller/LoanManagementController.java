@@ -29,8 +29,11 @@ public class LoanManagementController {
 	private Customer getCustomerDetails(@PathVariable("customerId") String customerId) {
 		return loanManagementService.getCustomerDetails(customerId);
 	}
+	@GetMapping("/loan-details/{loanID}")
+	private Loan getLoanDetailsForPayment(@PathVariable("loanID") String loanID) {
+		return loanManagementService.getLoanDetailsForPayment(loanID);
+	}
 
-	
 	@GetMapping("/verify-customer")
 	private Customer verifyCustomer(@RequestParam("email") String email, @RequestParam("password") String password) {
 		return loanManagementService.getCustomerDetails(email, password);
@@ -67,4 +70,7 @@ public class LoanManagementController {
 	private Loan approvedLoan(@PathVariable("loanId") String LoanId) {
 		return loanManagementService.approvedLoan(LoanId);
 	}
+	
+	
+
 }

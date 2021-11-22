@@ -1,22 +1,21 @@
 import { Component, OnInit, OnChanges, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Loan } from 'src/app/models/loan';
 import { HardcodedAuthenticationService } from 'src/app/service/hardcoded-authentication.service';
 import { LoanService } from 'src/app/service/loan.service';
 import * as moment from 'moment';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LoanApplyPopupComponent } from '../loan-apply-popup/loan-apply-popup.component';
 @Component({
   selector: 'app-applyloan',
   templateUrl: './applyloan.component.html',
   styleUrls: ['./applyloan.component.css']
 })
-export class ApplyloanComponent implements OnInit {
 
-  @ViewChild('alert', { static: true }) alert: ElementRef;
-  loanForm: FormGroup|any;
-  customerId:string;
+export class ApplyloanComponent implements OnInit {
+  loanForm: FormGroup | any;
+  customerId: string;
   loan: Loan = new Loan();
   submitted = false;
   today = new Date();
@@ -28,31 +27,32 @@ export class ApplyloanComponent implements OnInit {
   month = this.now.getMonth();
   day = this.now.getDay();
   minDate = moment(this.now).format('YYYY-MM-DD');
-  maxDate= moment(this.now, "YYYY-MM-DD").add(10, "days").format('YYYY-MM-DD');
+  maxDate = moment(this.now, "YYYY-MM-DD").add(10, "days").format('YYYY-MM-DD');
 
-  constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router,private authService:HardcodedAuthenticationService,public dialog: MatDialog ) { }
+  constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router, private authService: HardcodedAuthenticationService, public dialog: MatDialog) { }
+
   ngOnInit() {
 
-    this.customerId=this.authService.getCustomerId();
+    this.customerId = this.authService.getCustomerId();
     this.loanForm = this.formBuilder.group({
-      customerId: [{ value:this.customerId, disabled: true }],
+      customerId: [{ value: this.customerId, disabled: true }],
       loanAmount: ['', [Validators.required, Validators.max(10000000), Validators.min(1000)]],
-      tradeDate: ['',Validators.required],
-      startDate: ['',Validators.required],
-      loanDuration: ['',Validators.required],
+      tradeDate: ['', Validators.required],
+      startDate: ['', Validators.required],
+      loanDuration: ['', Validators.required],
       maturityDate: [{ value: new Date(), disabled: true }],
-      interestRate: [{ value: 10, disabled: true }],
+      interestRate: ['', [Validators.required, Validators.max(100), Validators.min(1)]],
       paymentFrequency: ['', [Validators.required]],
       paymentSchedule: [{ value: 0, disabled: true }],
       paymentTerm: ['', [Validators.required]],
       projectedInterest: [{ value: 0, disabled: true }],
     });
-}
+  }
 
   get f() { return this.loanForm.controls; }
 
 
-  setMaturityDate(event:any) {
+  setMaturityDate(event: any) {
     var range = (event.target.value) * 12;
     var startDate = this.loanForm.get('startDate').value;
     var date = new Date(startDate);
@@ -61,49 +61,54 @@ export class ApplyloanComponent implements OnInit {
         maturityDate: new Date(date.setMonth(date.getMonth() + range)).toISOString().substring(0, 10)
       });
     }
-
   }
-
-
-  calculatepaymentSchedule(event:any) {
-
-    var totalMonths = parseInt(this.loanForm.get('loanDuration').value) * 12;
-      if (event.target.value == "Monthly") {
-        this.paymentSchedule = totalMonths;
-      } else if (event.target.value == "Quarterly") {
-        this.paymentSchedule = totalMonths / 3;
-      } else if (event.target.value == "Half Yearly") {
-        this.paymentSchedule = totalMonths / 6;
-      } else if (event.target.value == "Yearly") {
-        this.paymentSchedule = totalMonths / 12;
-      }
+  setPaymentInterest(event: any) {
+    console.log("inter", event.target.value)
+    if (event.target.value != 0) {
       this.loanForm.patchValue({
-        paymentSchedule: this.paymentSchedule
+        interestRate
+          : event.target.value
       });
+    }
   }
 
-  calculateprojectedInterest(event:any) {
+  calculatepaymentSchedule(event: any) {
+    var totalMonths = parseInt(this.loanForm.get('loanDuration').value) * 12;
+    if (event.target.value == "Monthly") {
+      this.paymentSchedule = totalMonths;
+    } else if (event.target.value == "Quarterly") {
+      this.paymentSchedule = totalMonths / 3;
+    } else if (event.target.value == "Half Yearly") {
+      this.paymentSchedule = totalMonths / 6;
+    } else if (event.target.value == "Yearly") {
+      this.paymentSchedule = totalMonths / 12;
+    }
+    this.loanForm.patchValue({
+      paymentSchedule: this.paymentSchedule
+    });
+  }
+
+  calculateprojectedInterest(event: any) {
+
     var value = event.target.value;
+    console.log(value);
     var principal = this.loanForm.get('loanAmount').value;
     var totalYears = this.loanForm.get('loanDuration').value;
     var interestRate = this.loanForm.get('interestRate').value;
     var paymentSchedule = this.loanForm.get('paymentSchedule').value;
-
     if (value != undefined) {
-      var interestAmount:number|any = 0;
-      var perPaymentPrincipal=(principal / paymentSchedule);
+      var interestAmount: number | any = 0;
+      var perPaymentPrincipal = (principal / paymentSchedule);
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
         principal = principal - perPaymentPrincipal;
       }
     }
-
     this.loanForm.patchValue({
       projectedInterest: interestAmount
     });
-
   }
-  keyPressNumbers(event:any) {
+  keyPressNumbers(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
 
     if ((charCode < 48 || charCode > 57)) {
@@ -113,7 +118,6 @@ export class ApplyloanComponent implements OnInit {
       return true;
     }
   }
-
   onSubmit() {
     this.submitted = true;
     if (this.loanForm.invalid) {
@@ -130,28 +134,26 @@ export class ApplyloanComponent implements OnInit {
     this.loan.paymentSchedule = this.loanForm.get('paymentSchedule').value;
     this.loan.paymentTerm = this.loanForm.get('paymentTerm').value;
     this.loan.projectedInterest = this.loanForm.get('projectedInterest').value;
-
     this.loanService.saveLoan(this.loan).subscribe(data => {
-      console.log('Save Loan:' + data);
     });
-    this.dialog.open( LoanApplyPopupComponent );
-   this.resetForm();
+    this.dialog.open(LoanApplyPopupComponent);
+    this.resetForm();
   }
-  async resetForm(){
+  async resetForm() {
     this.loanForm.reset();
     Object.keys(this.loanForm.controls).forEach(key => {
       this.loanForm.controls[key].setErrors(null)
     });
-    this.submitted=false;
-    // await this.router.navigate(['home'])
-   }
-   formatDate(input:string) {
-    var datePart = input.match(/\d+/g),
-    year = datePart![0],
-    month = datePart![1],
-    day = datePart![2];
-    return day+'-'+month+'-'+year;
+    this.submitted = false;
+    this.loanForm.patchValue({
+      customerId: this.customerId
+    });
   }
-
-
+  formatDate(input: string) {
+    var datePart = input.match(/\d+/g),
+      year = datePart![0],
+      month = datePart![1],
+      day = datePart![2];
+    return day + '-' + month + '-' + year;
+  }
 }

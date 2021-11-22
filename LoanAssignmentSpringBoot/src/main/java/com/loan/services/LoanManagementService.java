@@ -52,6 +52,10 @@ public class LoanManagementService {
 		logger.info("Getting customer details for {}", customerId);
 		return customerRepository.findById(customerId).get();
 	}
+	public Loan getLoanDetailsForPayment(String loanId) {
+		logger.info("Getting loan details for payment screen{}", loanId);
+		return loanRepository.findById(loanId).get();
+	}
 
 	
 	public Customer getCustomerDetails(String email, String password) {
@@ -92,7 +96,7 @@ public class LoanManagementService {
 	
 	
 	public Loan saveLoan(Loan loan) {
-		loan.setInterestRate(10);
+	
 		loan.setPayment(false);
 		loan.setLoanId(generateKey("FINZ"));
 		try {
