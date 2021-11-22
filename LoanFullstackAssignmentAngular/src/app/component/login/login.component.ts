@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     this.activatedRoute.queryParamMap
             .subscribe(params => {
         this.retUrl = params.get('retUrl');
-        console.log( 'LoginComponent/ngOnInit '+ this.retUrl);
+
     });
 }
 
@@ -33,8 +33,6 @@ export class LoginComponent implements OnInit {
     this.loggedIn=await  this.authService.authenticate(loginForm.value.username, loginForm.value.password);
 
    if(this.loggedIn){
-
-       console.log( 'return to '+ this.retUrl);
        if (this.retUrl!=null) {
         this.router.navigate( [this.retUrl]);
    } else {

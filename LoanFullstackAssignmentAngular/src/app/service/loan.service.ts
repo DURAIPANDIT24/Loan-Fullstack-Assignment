@@ -37,7 +37,10 @@ export class LoanService {
   saveCustomer(customer: Customer): Observable<Customer> {
     return this.http.post<Customer>(`${this.baseUrl}` + '/add-customer', customer);
   }
-
+getLoanDetails(loanId:string): Observable<Loan>{
+  console.log("hiii")
+  return this.http.get<Loan>(`${this.baseUrl}` + '/loan-details/' + `${loanId}`);
+}
 
   verifyCustomer(email: string, password: string): Observable<Customer> {
     let params = new HttpParams();

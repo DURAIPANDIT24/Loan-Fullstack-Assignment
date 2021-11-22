@@ -11,11 +11,9 @@ export class HardcodedAuthenticationService {
   private customer: Customer;
 
   constructor(private loanService: LoanService) {
-
   }
   async authenticate(username: string, password: string) {
     this.customer = await this.loanService.verifyCustomer(username, password).toPromise();
-
     if(this.customer .customerId!=null) {
       sessionStorage.setItem('authenticaterUser', username);
       return true;

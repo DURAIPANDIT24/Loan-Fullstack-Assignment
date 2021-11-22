@@ -4,7 +4,7 @@ import { LoanService } from 'src/app/service/loan.service';
 import { PaymentSchedule } from 'src/app/models/paymentSchedule';
 import {MatDialog} from '@angular/material/dialog';
 import { LoanPayPopupComponent } from '../loan-pay-popup/loan-pay-popup.component';
-
+import { Loan } from 'src/app/models/loan';
 @Component({
   selector: 'app-payment-schedule',
   templateUrl: './payment-schedule.component.html',
@@ -12,8 +12,10 @@ import { LoanPayPopupComponent } from '../loan-pay-popup/loan-pay-popup.componen
 })
 export class PaymentScheduleComponent implements OnInit {
   payments:PaymentSchedule[] ;
-  loanId:string;
+  loanid:string;
   spin : boolean;
+ loans: Loan[]|any;
+
   constructor(private activatedRoute: ActivatedRoute,private loanService: LoanService,public dialog: MatDialog ) { }
 
   ngOnInit(): void {
@@ -22,11 +24,17 @@ export class PaymentScheduleComponent implements OnInit {
     this.activatedRoute
     .queryParams
     .subscribe(params => {
-      this.loanId=params['loanId'];
-      this.loanService.getPaymentSchedule(this.loanId).subscribe((data:any)=>
+      this.loanid=params['loanId'];
+      this.loanService.getPaymentSchedule(this.loanid).subscribe((data:any)=>
       {
         this.spin=false;
         this.payments=data.sort(this.compare);
+      })
+      this.loanService.getLoanDetails(this.loanid).subscribe((data:any)=>
+      {
+         this.loans = data;
+
+        console.log("loan",this.loans);
       })
     });
   }
@@ -44,7 +52,6 @@ export class PaymentScheduleComponent implements OnInit {
   }
 
   changePaymentStatus(event : any,paymentId:any){
-
     let popup= this.dialog.open( LoanPayPopupComponent );
     popup.afterClosed().subscribe(data=>{
       if(data===true){
@@ -56,7 +63,6 @@ export class PaymentScheduleComponent implements OnInit {
         return data;
     }
     })
-
   }
 
   compare( a:any, b:any ) {

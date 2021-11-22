@@ -11,10 +11,10 @@ import { LoanService } from 'src/app/service/loan.service';
 export class CustomerdetailsComponent implements OnInit {
   model: Customer;
   customerForm: FormGroup;
-  customerId:string;
-  spin : boolean;
-  constructor(private loanService: LoanService, private formBuilder: FormBuilder,private authService:HardcodedAuthenticationService) {
-    this.customerId=this.authService.getCustomerId();
+  customerId: string;
+  spin: boolean;
+  constructor(private loanService: LoanService, private formBuilder: FormBuilder, private authService: HardcodedAuthenticationService) {
+    this.customerId = this.authService.getCustomerId();
     this.spin = true
     this.loanService.getCustomerDetails(this.customerId).subscribe((data: any) => {
       this.spin = false
@@ -34,8 +34,5 @@ export class CustomerdetailsComponent implements OnInit {
       customerId: [], name: [], accno: [], address: [], phone: [], email: []
     });
     this.customerForm.disable();
-    console.log("hai",this.model)
   }
-
-
 }
