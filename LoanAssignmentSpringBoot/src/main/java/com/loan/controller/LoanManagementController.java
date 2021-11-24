@@ -18,7 +18,7 @@ import com.loan.services.LoanManagementService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api")
+@RequestMapping("/loan")
 public class LoanManagementController {
 	@Autowired
 	LoanManagementService loanManagementService;
@@ -34,8 +34,8 @@ public class LoanManagementController {
 	}
 
 	@PutMapping("/update-loanstatus/{loanId}")
-	private Loan approvedLoan(@PathVariable("loanId") String LoanId) {
-		return loanManagementService.approvedLoan(LoanId);
+	private Loan approveLoan(@PathVariable("loanId") String LoanId) {
+		return loanManagementService.approveLoan(LoanId);
 	}
 
 }

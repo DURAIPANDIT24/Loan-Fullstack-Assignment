@@ -8,16 +8,18 @@ import { CustomerdetailsComponent } from './component/customerdetails/customerde
 import { LoginComponent } from './component/login/login.component';
 import { RouteGuardService } from './service/route-guard.service';
 import { PaymentScheduleComponent } from './component/payment-schedule/payment-schedule.component';
+import { AdminComponent } from './component/admin/admin.component';
 
 
 const routes: Routes = [
-  {path:'', component: LoginComponent },
-  {path:'login', component: LoginComponent },
-  {path: 'home', component : CustomerLoanDetailsComponent, canActivate:[RouteGuardService] },
-  {path: 'applyloan',component : ApplyloanComponent, canActivate:[RouteGuardService]},
-  {path:'customerdetails',component : CustomerdetailsComponent, canActivate:[RouteGuardService] },
-  { path: 'payment-schedule', component: PaymentScheduleComponent ,canActivate : [RouteGuardService]},
+  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: CustomerLoanDetailsComponent, canActivate: [RouteGuardService] },
+  { path: 'applyloan', component: ApplyloanComponent, canActivate: [RouteGuardService] },
+  { path: 'customerdetails', component: CustomerdetailsComponent, canActivate: [RouteGuardService] },
+  { path: 'payment-schedule', component: PaymentScheduleComponent, canActivate: [RouteGuardService] },
   { path: 'signup', component: SignupComponent },
+  { path: 'admin', component: AdminComponent },
 ];
 
 @NgModule({
