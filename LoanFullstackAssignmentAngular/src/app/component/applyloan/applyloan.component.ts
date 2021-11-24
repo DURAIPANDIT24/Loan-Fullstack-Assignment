@@ -91,17 +91,16 @@ export class ApplyloanComponent implements OnInit {
   calculateprojectedInterest(event: any) {
 
     var value = event.target.value;
-    console.log(value);
     var principal = this.loanForm.get('loanAmount').value;
     var totalYears = this.loanForm.get('loanDuration').value;
     var interestRate = this.loanForm.get('interestRate').value;
     var paymentSchedule = this.loanForm.get('paymentSchedule').value;
     if (value != undefined) {
       var interestAmount: number | any = 0;
-      var perPaymentPrincipal = (principal / paymentSchedule);
+
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
-        principal = principal - perPaymentPrincipal;
+
       }
     }
     this.loanForm.patchValue({

@@ -26,6 +26,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { LoanApplyPopupComponent } from './component/loan-apply-popup/loan-apply-popup.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { AdminComponent } from './component/admin/admin.component';
+import { LoanApprovedPopupComponent } from './component/loan-approved-popup/loan-approved-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     PaymentScheduleComponent,
     LoanPayPopupComponent,
     LoanApplyPopupComponent,
+    AdminComponent,
+    LoanApprovedPopupComponent,
 
   ],
   imports: [

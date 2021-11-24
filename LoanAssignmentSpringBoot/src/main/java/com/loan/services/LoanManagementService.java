@@ -113,12 +113,11 @@ public class LoanManagementService {
 
 	private float calculateInterest(Loan loan, int perPaymentPrincipal) {
 		float paymentSchedule = loan.getPaymentSchedule();
-		float principal = loan.getLoanAmount();
+
 		float years = loan.getLoanDuration();
 		float interestRate = loan.getInterestRate();
-		int interestAmount = (int) ((principal * (years / paymentSchedule) * interestRate) / 100);
-		principal = principal - perPaymentPrincipal;
-		loan.setLoanAmount((int) principal);
+		int interestAmount = (int) ((loan.getLoanAmount() * (years / paymentSchedule) * interestRate) / 100);
+
 		return interestAmount;
 	}
 
@@ -176,7 +175,7 @@ public class LoanManagementService {
 		return paymentDate;
 	}
 
-	public Loan approvedLoan(String loanId) {
+	public Loan approveLoan(String loanId) {
 		Optional<Loan> loanapprovedOptional = loanRepository.findById(loanId);
 		Loan loan = new Loan();
 		if (loanapprovedOptional.isPresent()) {
