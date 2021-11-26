@@ -99,7 +99,6 @@ export class ApplyloanComponent implements OnInit {
     var paymentSchedule = this.loanForm.get('paymentSchedule').value;
     if (value != undefined) {
       var interestAmount: number | any = 0;
-
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
       }
