@@ -23,15 +23,20 @@ export class CustomerLoanDetailsComponent implements OnInit {
     this.spin = true;
     this.loanService.getLoanList(this.customerId).subscribe((data: any) => {
       this.spin = false;
-      this.loans = data;
+      this.loans = data.sort(this.compare);
     });
   }
 
   navigatePaymentSchedule(loanId: string) {
     this.router.navigate([`./payment-schedule`], { queryParams: { loanId: loanId } });
   }
-   navigatePayment(loanId: string) {
+  navigatePayment(loanId: string) {
     this.router.navigate([`./payment-schedule`], { queryParams: { loanId: loanId } });
   }
+  compare(a: any, b: any) {
 
+
+    return <any>new Date(b.paymentDate) - <any>new Date(a.paymentDate);
+
+  }
 }
