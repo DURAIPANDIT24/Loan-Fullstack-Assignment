@@ -29,7 +29,7 @@ public class PaymentManagementService {
 	private static final Logger logger = LoggerFactory.getLogger(LoanManagementService.class);
 	
 	public Loan getLoanDetailsForPayment(String loanId) {
-		logger.info("Getting loan details for payment screen{}", loanId);
+		logger.info("Getting loan details for payment screen{} ", loanId);
 		return loanRepository.findById(loanId).get();
 	}
 

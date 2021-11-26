@@ -100,7 +100,6 @@ export class ApplyloanComponent implements OnInit {
 
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
-
       }
     }
     this.loanForm.patchValue({

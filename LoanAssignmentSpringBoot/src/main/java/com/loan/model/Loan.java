@@ -1,9 +1,13 @@
 package com.loan.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
@@ -17,11 +21,14 @@ public class Loan implements Cloneable {
 	@Column
 	private int loanAmount;
 	@Column
-	private String tradeDate;
+	@JsonFormat(pattern="dd-MM-yyyy")
+	private Date tradeDate;
 	@Column
-	private String startDate;
+	@JsonFormat(pattern="dd-MM-yyyy")
+	private Date startDate;
 	@Column
-	private String maturityDate;
+	@JsonFormat(pattern="dd-MM-yyyy")
+	private Date maturityDate;
 	@Column
 	private int loanDuration;
 	@Column
@@ -69,27 +76,29 @@ public class Loan implements Cloneable {
 		this.loanAmount = loanAmount;
 	}
 
-	public String getTradeDate() {
+	
+
+	public Date getTradeDate() {
 		return tradeDate;
 	}
 
-	public void setTradeDate(String tradeDate) {
+	public void setTradeDate(Date tradeDate) {
 		this.tradeDate = tradeDate;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getMaturityDate() {
+	public Date getMaturityDate() {
 		return maturityDate;
 	}
 
-	public void setMaturityDate(String maturityDate) {
+	public void setMaturityDate(Date maturityDate) {
 		this.maturityDate = maturityDate;
 	}
 
