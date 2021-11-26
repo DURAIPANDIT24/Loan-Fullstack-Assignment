@@ -55,7 +55,9 @@ export class ApplyloanComponent implements OnInit {
   setMaturityDate(event: any) {
     var range = (event.target.value) * 12;
     var startDate = this.loanForm.get('startDate').value;
+    console.log("fdfdf", startDate)
     var date = new Date(startDate);
+
     if (range != 0) {
       this.loanForm.patchValue({
         maturityDate: new Date(date.setMonth(date.getMonth() + range)).toISOString().substring(0, 10)
@@ -100,7 +102,6 @@ export class ApplyloanComponent implements OnInit {
 
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
-
       }
     }
     this.loanForm.patchValue({
@@ -124,10 +125,10 @@ export class ApplyloanComponent implements OnInit {
     }
     this.loan.customerId = this.loanForm.get('customerId').value;
     this.loan.loanAmount = this.loanForm.get('loanAmount').value;
-    this.loan.tradeDate = this.formatDate(this.loanForm.get('tradeDate').value);
-    this.loan.startDate = this.formatDate(this.loanForm.get('startDate').value);
+    this.loan.tradeDate = new Date(this.loanForm.get('tradeDate').value);
+    this.loan.startDate = new Date(this.loanForm.get('startDate').value);
     this.loan.loanDuration = this.loanForm.get('loanDuration').value;
-    this.loan.maturityDate = this.formatDate(this.loanForm.get('maturityDate').value);
+    this.loan.maturityDate = new Date(this.loanForm.get('maturityDate').value);
     this.loan.interestRate = this.loanForm.get('interestRate').value;
     this.loan.paymentFrequency = this.loanForm.get('paymentFrequency').value;
     this.loan.paymentSchedule = this.loanForm.get('paymentSchedule').value;

@@ -121,18 +121,13 @@ public class LoanManagementService {
 		return interestAmount;
 	}
 
-	private String calculatePaymentDate(Loan loan, String paymentFrequency) {
+	private Date calculatePaymentDate(Loan loan, String paymentFrequency) {
 		String paymentDate = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		Date date = null;
-		try {
-			date = formatter.parse(loan.getStartDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		
 
 		Calendar paymentDateCalenar = Calendar.getInstance();
-		paymentDateCalenar.setTime(date);
+		paymentDateCalenar.setTime(loan.getStartDate());
 		switch (paymentFrequency) {
 		case "Monthly": {
 			paymentDateCalenar.add(Calendar.MONTH, 1);
@@ -161,8 +156,15 @@ public class LoanManagementService {
 
 		}
 		paymentDate = convertDateFormat(paymentDate);
-		loan.setStartDate(paymentDate);
-		return paymentDate;
+		
+		Date paymentPaydate = null;
+		try {
+			paymentPaydate = formatter.parse(paymentDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		loan.setStartDate(paymentPaydate);
+		return paymentPaydate;
 	}
 
 	private String convertDateFormat(String paymentDate) {
@@ -170,6 +172,8 @@ public class LoanManagementService {
 			paymentDate = "0" + paymentDate;
 		}
 		if (paymentDate.charAt(4) == '-') {
+			System.out.println(paymentDate.substring(3));
+			System.out.println(paymentDate.substring(0, 3));
 			paymentDate = paymentDate.substring(0, 3) + "0" + paymentDate.substring(3);
 		}
 		return paymentDate;
