@@ -64,17 +64,10 @@ export class PaymentScheduleComponent implements OnInit {
   }
 
   compare(a: any, b: any) {
-    var a_part = a.paymentDate.split("-");
-    var dateObject1 = new Date(+a_part[2], a_part[1] - 1, +a_part[1]);
-    var b_part = b.paymentDate.split("-");
-    var dateObject2 = new Date(+b_part[2], b_part[1] - 1, +b_part[1]);
-    if (dateObject1.valueOf() < dateObject2.valueOf()) {
-      return -1;
-    }
-    if (dateObject1.valueOf() > dateObject2.valueOf()) {
-      return 1;
-    }
-    return 0;
+
+
+    return <any>new Date(a.paymentDate) - <any>new Date(b.paymentDate);
+
   }
 
 

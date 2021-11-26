@@ -21,13 +21,13 @@ public class Loan implements Cloneable {
 	@Column
 	private int loanAmount;
 	@Column
-	@JsonFormat(pattern="dd-MM-yyyy")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date tradeDate;
 	@Column
-	@JsonFormat(pattern="dd-MM-yyyy")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date startDate;
 	@Column
-	@JsonFormat(pattern="dd-MM-yyyy")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date maturityDate;
 	@Column
 	private int loanDuration;
