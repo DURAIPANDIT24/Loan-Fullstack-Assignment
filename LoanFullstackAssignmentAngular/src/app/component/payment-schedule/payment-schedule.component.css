@@ -19,3 +19,15 @@ a {
 font-size:12px !important;
   color:white !important;
 }
+.button {
+
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  color: hsla(0, 0%, 90%, 1);
+  background: #0d6efd
+
+}
+.button.b2 {
+  display: table; /* element only as wide as content */
+}

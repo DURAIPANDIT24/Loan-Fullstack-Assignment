@@ -54,7 +54,7 @@ export class SignupComponent implements OnInit {
         this.onFormSubmit();
       }
     })
-    this.toastr.success('Register Successfull');
+
 
   }
   async onFormSubmit() {
@@ -63,6 +63,7 @@ export class SignupComponent implements OnInit {
     if (this.loggedIn) {
       if (this.retUrl != null) {
         this.router.navigate([this.retUrl]);
+        this.toastr.success('Register Successfull');
       } else {
         this.router.navigate(['home']);
 
