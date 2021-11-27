@@ -39,19 +39,23 @@ export class PaymentScheduleComponent implements OnInit {
   }
   paybuttonfunction() {
 
-    for (let i = 0; i < this.payments.length - 1; i++) {
+    for (let i = 0; i < this.payments.length; i++) {
+
       if ((this.payments[i]?.paymentStatus == "PROJECTED")) {
         if (moment(this.payments[i]?.paymentDate).isBefore(this.payments[i + 1].paymentDate) && (this.payments[i]?.paymentStatus == "PROJECTED")) {
-          console.log(this.payments[i].paymentDate);
+
           this.paymentbuttonstatus = this.payments[i].paymentDate
           break;
         }
         else {
           this.paymentbuttonstatus = this.payments[i + 1].paymentDate
-
-          console.log(this.payments[i + 1].paymentDate);
           break;
         }
+
+      }
+
+      else {
+        this.paymentbuttonstatus = this.payments[this.payments.length - 1].paymentDate
       }
     }
   }
