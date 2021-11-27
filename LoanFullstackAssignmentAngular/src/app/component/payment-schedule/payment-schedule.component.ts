@@ -51,7 +51,9 @@ export class PaymentScheduleComponent implements OnInit {
           this.paymentbuttonstatus = this.payments[i + 1].paymentDate
           break;
         }
+
       }
+
       else {
         this.paymentbuttonstatus = this.payments[this.payments.length - 1].paymentDate
       }
