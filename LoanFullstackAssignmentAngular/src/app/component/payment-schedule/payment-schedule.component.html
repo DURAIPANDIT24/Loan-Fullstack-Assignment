@@ -35,12 +35,10 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
   <div style="height: 450px; overflow: auto">
-    <table class="table">
+    <table class="table table-responsive-md btn-table">
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -63,10 +61,13 @@
             <span [ngClass]="getClass(payment.paymentStatus)">{{ payment.paymentStatus}}</span>
           </td>
           <td>{{ payment.paymentAmount | number }}</td>
-          <td>
+          <!-- <td>
             <a class="badge badge-pill bg-primary" *ngIf="payment.paymentStatus!='PAID'"
               (click)="changePaymentStatus($event,payment.paymentId)">Pay</a>
-          </td>
+          </td> -->
+          <td><button class="  button b2" *ngIf="payment.paymentStatus!='PAID'"
+              (click)="changePaymentStatus($event,payment.paymentId)"
+              [disabled]="payment.paymentDate!=paymentbuttonstatus">Pay</button></td>
         </tr>
       </tbody>
     </table>

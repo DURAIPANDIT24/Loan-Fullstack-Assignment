@@ -5,6 +5,7 @@ import { PaymentSchedule } from 'src/app/models/paymentSchedule';
 import { MatDialog } from '@angular/material/dialog';
 import { LoanPayPopupComponent } from '../loan-pay-popup/loan-pay-popup.component';
 import { Loan } from 'src/app/models/loan';
+import * as moment from 'moment';
 @Component({
   selector: 'app-payment-schedule',
   templateUrl: './payment-schedule.component.html',
@@ -15,12 +16,11 @@ export class PaymentScheduleComponent implements OnInit {
   loanid: string;
   spin: boolean;
   loans: Loan[] | any;
-
+  paymentbuttonstatus: Date;
   constructor(private activatedRoute: ActivatedRoute, private loanService: LoanService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.spin = true;
-
     this.activatedRoute
       .queryParams
       .subscribe(params => {
@@ -28,6 +28,7 @@ export class PaymentScheduleComponent implements OnInit {
         this.loanService.getPaymentSchedule(this.loanid).subscribe((data: any) => {
           this.spin = false;
           this.payments = data.sort(this.compare);
+          this.paybuttonfunction();
         })
         this.loanService.getLoanDetails(this.loanid).subscribe((data: any) => {
           this.loans = data;
@@ -35,6 +36,24 @@ export class PaymentScheduleComponent implements OnInit {
           console.log("loan", this.loans);
         })
       });
+  }
+  paybuttonfunction() {
+
+    for (let i = 0; i < this.payments.length - 1; i++) {
+      if ((this.payments[i]?.paymentStatus == "PROJECTED")) {
+        if (moment(this.payments[i]?.paymentDate).isBefore(this.payments[i + 1].paymentDate) && (this.payments[i]?.paymentStatus == "PROJECTED")) {
+          console.log(this.payments[i].paymentDate);
+          this.paymentbuttonstatus = this.payments[i].paymentDate
+          break;
+        }
+        else {
+          this.paymentbuttonstatus = this.payments[i + 1].paymentDate
+
+          console.log(this.payments[i + 1].paymentDate);
+          break;
+        }
+      }
+    }
   }
 
   getClass(paymentStatus: string) {
@@ -65,11 +84,7 @@ export class PaymentScheduleComponent implements OnInit {
 
   compare(a: any, b: any) {
 
-
     return <any>new Date(a.paymentDate) - <any>new Date(b.paymentDate);
 
   }
-
-
-
 }
